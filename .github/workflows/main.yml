@@ -19,6 +19,7 @@ env:
 
 jobs:
   format:
+    name: Check with Ruff formatter
     runs-on: ubuntu-latest
 
     steps:
@@ -36,10 +37,11 @@ jobs:
         run: |
           pdm install --with lint
 
-      - name: Check with Ruff formatter.
+      - name: Check with Ruff formatter
         run: pdm run check_format
 
   mypy:
+    name: Check with Mypy typechecker
     runs-on: ubuntu-latest
 
     steps:
@@ -61,6 +63,7 @@ jobs:
         run: pdm run check_mypy
 
   ruff:
+    name: Check with Ruff linter
     runs-on: ubuntu-latest
 
     steps:
@@ -78,10 +81,11 @@ jobs:
         run: |
           pdm install --with lint
 
-      - name: Check with Ruff linter.
+      - name: Check with Ruff linter
         run: pdm run check_ruff
 
   pytest:
+    name: Run tests
     needs: [format, mypy, ruff]
 
     runs-on: ubuntu-latest
