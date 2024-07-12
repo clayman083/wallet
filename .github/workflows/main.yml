@@ -108,37 +108,37 @@ jobs:
       - name: Run tests
         run: pdm run test
 
-  # build:
-  #   needs: [format, mypy, ruff, pytest]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@master
+  build:
+    needs: [pytest]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
 
-  #     - name: Extract metadata (tags, labels) for Docker
-  #       id: meta
-  #       uses: docker/metadata-action@v4
-  #       with:
-  #         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-  #         tags: |
-  #           # branch event
-  #           type=ref,event=branch
-  #           # tag event
-  #           type=ref,event=tag
-  #           # master event
-  #           type=sha,format=short,prefix=,suffix=,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            # branch event
+            type=ref,event=branch
+            # tag event
+            type=ref,event=tag
+            # master event
+            type=sha,format=short,prefix=,suffix=,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
 
-  #     - name: Log in to the Container registry
-  #       uses: docker/login-action@v2
-  #       if: github.event_name != 'pull_request'
-  #       with:
-  #         registry: ${{ env.REGISTRY }}
-  #         username: ${{ github.actor }}
-  #         password: ${{ secrets.GHCR_TOKEN }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
-  #     - name: Build and push Docker image
-  #       uses: docker/build-push-action@v4
-  #       with:
-  #         context: .
-  #         push: ${{ github.event_name != 'pull_request' }}
-  #         tags: ${{ steps.meta.outputs.tags }}
-  #         labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
