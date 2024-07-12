@@ -1,19 +1,24 @@
-FROM python:3.11-slim as build
+ARG PYTHON_BASE=3.10-slim
+
+FROM python:$PYTHON_BASE as build
 
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && apt-get install -y -q \
       build-essential python3-dev libffi-dev git && \
     python3 -m pip install --no-cache-dir --quiet -U pip && \
-    python3 -m pip install --no-cache-dir --quiet poetry
+    python3 -m pip install --no-cache-dir --quiet pdm
 
-ADD . /app
+ENV PDM_CHECK_UPDATE=false
+
+COPY pyproject.toml pdm.lock README.md /app
+COPY src/ /app/src
 
 WORKDIR /app
 
-RUN poetry build
+RUN pdm build
 
 
-FROM python:3.11-slim
+FROM python:$PYTHON_BASE
 
 COPY --from=build /app/dist/*.whl .
 
@@ -33,4 +38,4 @@ HEALTHCHECK --interval=10s --timeout=3s \
 
 ENTRYPOINT ["python3", "-m", "wallet"]
 
-CMD [ "server", "run", "--host=0.0.0.0" ]
+CMD ["server", "run", "--host=0.0.0.0"]
