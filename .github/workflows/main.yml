@@ -109,6 +109,7 @@ jobs:
         run: pdm run test
 
   build:
+    name: Build Docker image
     needs: [pytest]
     runs-on: ubuntu-latest
     steps:
