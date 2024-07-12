@@ -1,4 +1,4 @@
-ARG PYTHON_BASE=3.10-slim
+ARG PYTHON_BASE=3.12-slim
 
 FROM python:$PYTHON_BASE as build
 
@@ -10,7 +10,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 ENV PDM_CHECK_UPDATE=false
 
-COPY pyproject.toml pdm.lock README.md /app
+COPY pyproject.toml pdm.lock README.md /app/
 COPY src/ /app/src
 
 WORKDIR /app
