@@ -2,10 +2,13 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "debug", "lint", "test"]
-strategy = ["cross_platform", "inherit_metadata"]
-lock_version = "4.4.2"
-content_hash = "sha256:94151bd5fda5edee85d39f3139ec512c87dd446c6366f8eacffbaf5c0f0d2604"
+groups = ["default", "debug", "dev", "lint", "test"]
+strategy = ["inherit_metadata"]
+lock_version = "4.5.0"
+content_hash = "sha256:6058f6c57f3cfc1a4461f97b4b0209fd4a7103af29953d71833b70932c127b02"
+
+[[metadata.targets]]
+requires_python = ">=3.12"
 
 [[package]]
 name = "aiohttp"
@@ -15,6 +18,7 @@ summary = "Async http client/server framework (asyncio)"
 groups = ["default", "test"]
 dependencies = [
     "aiosignal>=1.1.2",
+    "async-timeout<5.0,>=4.0; python_version < \"3.11\"",
     "attrs>=17.3.0",
     "frozenlist>=1.1.1",
     "multidict<7.0,>=4.5",
@@ -60,6 +64,7 @@ summary = "Annotate AST trees with source code positions"
 groups = ["debug"]
 dependencies = [
     "six>=1.12.0",
+    "typing; python_version < \"3.5\"",
 ]
 files = [
     {file = "asttokens-2.4.1-py2.py3-none-any.whl", hash = "sha256:051ed49c3dcae8913ea7cd08e46a606dba30b79993209636c4875bc1d637bc24"},
@@ -72,6 +77,9 @@ version = "23.2.0"
 requires_python = ">=3.7"
 summary = "Classes Without Boilerplate"
 groups = ["default", "test"]
+dependencies = [
+    "importlib-metadata; python_version < \"3.8\"",
+]
 files = [
     {file = "attrs-23.2.0-py3-none-any.whl", hash = "sha256:99b87a485a5820b23b879f04c2305b44b951b502fd64be915879d77a7e8fc6f1"},
     {file = "attrs-23.2.0.tar.gz", hash = "sha256:935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"},
@@ -85,6 +93,7 @@ summary = "Composable command line interface toolkit"
 groups = ["default"]
 dependencies = [
     "colorama; platform_system == \"Windows\"",
+    "importlib-metadata; python_version < \"3.8\"",
 ]
 files = [
     {file = "click-8.1.7-py3-none-any.whl", hash = "sha256:ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28"},
@@ -96,7 +105,7 @@ name = "colorama"
 version = "0.4.6"
 requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 summary = "Cross-platform colored terminal text."
-groups = ["debug", "default", "test"]
+groups = ["default", "debug", "test"]
 marker = "platform_system == \"Windows\" or sys_platform == \"win32\""
 files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
@@ -133,6 +142,7 @@ summary = "Code coverage measurement for Python"
 groups = ["test"]
 dependencies = [
     "coverage==7.5.4",
+    "tomli; python_full_version <= \"3.11.0a6\"",
 ]
 files = [
     {file = "coverage-7.5.4-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:54317c2b806354cbb2dc7ac27e2b93f97096912cc16b18289c5d4e44fc663233"},
@@ -187,6 +197,20 @@ files = [
 ]
 
 [[package]]
+name = "freezegun"
+version = "1.5.1"
+requires_python = ">=3.7"
+summary = "Let your Python tests travel through time"
+groups = ["test"]
+dependencies = [
+    "python-dateutil>=2.7",
+]
+files = [
+    {file = "freezegun-1.5.1-py3-none-any.whl", hash = "sha256:bf111d7138a8abe55ab48a71755673dbaa4ab87f4cff5634a4442dfec34c15f1"},
+    {file = "freezegun-1.5.1.tar.gz", hash = "sha256:b29dedfcda6d5e8e083ce71b2b542753ad48cfec44037b3fc79702e2980a89e9"},
+]
+
+[[package]]
 name = "frozenlist"
 version = "1.4.1"
 requires_python = ">=3.8"
@@ -210,6 +234,78 @@ files = [
     {file = "frozenlist-1.4.1-cp312-cp312-win_amd64.whl", hash = "sha256:64536573d0a2cb6e625cf309984e2d873979709f2cf22839bf2d61790b448ad5"},
     {file = "frozenlist-1.4.1-py3-none-any.whl", hash = "sha256:04ced3e6a46b4cfffe20f9ae482818e34eba9b5fb0ce4056e4cc9b6e212d09b7"},
     {file = "frozenlist-1.4.1.tar.gz", hash = "sha256:c037a86e8513059a2613aaba4d817bb90b9d9b6b69aace3ce9c877e8c8ed402b"},
+]
+
+[[package]]
+name = "grpc-stubs"
+version = "1.53.0.5"
+requires_python = ">=3.6"
+summary = "Mypy stubs for gRPC"
+groups = ["lint"]
+dependencies = [
+    "grpcio",
+]
+files = [
+    {file = "grpc-stubs-1.53.0.5.tar.gz", hash = "sha256:3e1b642775cbc3e0c6332cfcedfccb022176db87e518757bef3a1241397be406"},
+    {file = "grpc_stubs-1.53.0.5-py3-none-any.whl", hash = "sha256:04183fb65a1b166a1febb9627e3d9647d3926ccc2dfe049fe7b6af243428dbe1"},
+]
+
+[[package]]
+name = "grpcio"
+version = "1.65.4"
+requires_python = ">=3.8"
+summary = "HTTP/2-based RPC framework"
+groups = ["default", "lint"]
+files = [
+    {file = "grpcio-1.65.4-cp312-cp312-linux_armv7l.whl", hash = "sha256:926a0750a5e6fb002542e80f7fa6cab8b1a2ce5513a1c24641da33e088ca4c56"},
+    {file = "grpcio-1.65.4-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:2a1d4c84d9e657f72bfbab8bedf31bdfc6bfc4a1efb10b8f2d28241efabfaaf2"},
+    {file = "grpcio-1.65.4-cp312-cp312-manylinux_2_17_aarch64.whl", hash = "sha256:17de4fda50967679677712eec0a5c13e8904b76ec90ac845d83386b65da0ae1e"},
+    {file = "grpcio-1.65.4-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:3dee50c1b69754a4228e933696408ea87f7e896e8d9797a3ed2aeed8dbd04b74"},
+    {file = "grpcio-1.65.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:74c34fc7562bdd169b77966068434a93040bfca990e235f7a67cdf26e1bd5c63"},
+    {file = "grpcio-1.65.4-cp312-cp312-musllinux_1_1_i686.whl", hash = "sha256:24a2246e80a059b9eb981e4c2a6d8111b1b5e03a44421adbf2736cc1d4988a8a"},
+    {file = "grpcio-1.65.4-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:18c10f0d054d2dce34dd15855fcca7cc44ec3b811139437543226776730c0f28"},
+    {file = "grpcio-1.65.4-cp312-cp312-win32.whl", hash = "sha256:d72962788b6c22ddbcdb70b10c11fbb37d60ae598c51eb47ec019db66ccfdff0"},
+    {file = "grpcio-1.65.4-cp312-cp312-win_amd64.whl", hash = "sha256:7656376821fed8c89e68206a522522317787a3d9ed66fb5110b1dff736a5e416"},
+    {file = "grpcio-1.65.4.tar.gz", hash = "sha256:2a4f476209acffec056360d3e647ae0e14ae13dcf3dfb130c227ae1c594cbe39"},
+]
+
+[[package]]
+name = "grpcio-reflection"
+version = "1.65.4"
+requires_python = ">=3.8"
+summary = "Standard Protobuf Reflection Service for gRPC"
+groups = ["default"]
+dependencies = [
+    "grpcio>=1.65.4",
+    "protobuf<6.0dev,>=5.26.1",
+]
+files = [
+    {file = "grpcio_reflection-1.65.4-py3-none-any.whl", hash = "sha256:c569c0dddeb94266fcd34ed2942118f202c90a450b11371bf733846621c3aaba"},
+    {file = "grpcio_reflection-1.65.4.tar.gz", hash = "sha256:8c6b960c3f430681e88af59f69fab5a575b77b29f5c6a1d716eaac5cf1c1a49d"},
+]
+
+[[package]]
+name = "grpcio-tools"
+version = "1.65.2"
+requires_python = ">=3.8"
+summary = "Protobuf code generator for gRPC"
+groups = ["default"]
+dependencies = [
+    "grpcio>=1.65.2",
+    "protobuf<6.0dev,>=5.26.1",
+    "setuptools",
+]
+files = [
+    {file = "grpcio_tools-1.65.2-cp312-cp312-linux_armv7l.whl", hash = "sha256:8782867f2176e510ac55f861f1f48553570ea395dd223cf7240d0d3395e43934"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:357decdf53b896b7d96047e1ee401d58f78f2f6b9aefb0e72bafa034d40a968b"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-manylinux_2_17_aarch64.whl", hash = "sha256:a4892bf743be80851edbec7219ce02040675518c0c04799225c960eb7590a071"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:40b44f006dd904792ac6b144eabc9945b5b30c40dcb93d65fd984419b2f328d2"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f38b1a3b214917079f8c596e74127e97c935a375fe0ac1fe00ebb53663137dbc"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-musllinux_1_1_i686.whl", hash = "sha256:4dc9ccb45760f45dee8c4650ef5578513fd17ad96dd8a6af6b22b5520f56ef70"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:285960f52719df90f30b24a179df0f40c328fdb5f52a5b02381fe70b742de5aa"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-win32.whl", hash = "sha256:26c287925b681dec46213c17f45864f0d0918f435188634d4f21dab39e2df306"},
+    {file = "grpcio_tools-1.65.2-cp312-cp312-win_amd64.whl", hash = "sha256:75035269ad68ccfeceaaa312bf1c47b13eaab32470040c0e0ed3a2bd17232cf2"},
+    {file = "grpcio_tools-1.65.2.tar.gz", hash = "sha256:256d2b2e3fa02c5159507b85db4e51bd00088ad640d76af1ca79c2cc0ca6f2dd"},
 ]
 
 [[package]]
@@ -241,8 +337,24 @@ requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 summary = "IPython-enabled pdb"
 groups = ["debug"]
 dependencies = [
+    "decorator; python_version == \"3.5\"",
+    "decorator; python_version == \"3.6\"",
+    "decorator; python_version > \"3.6\" and python_version < \"3.11\"",
     "decorator; python_version >= \"3.11\"",
+    "decorator<5.0.0; python_version == \"2.7\"",
+    "decorator<5.0.0; python_version == \"3.4\"",
+    "ipython<6.0.0,>=5.1.0; python_version == \"2.7\"",
+    "ipython<7.0.0,>=6.0.0; python_version == \"3.4\"",
+    "ipython<7.10.0,>=7.0.0; python_version == \"3.5\"",
+    "ipython<7.17.0,>=7.16.3; python_version == \"3.6\"",
+    "ipython>=7.31.1; python_version > \"3.6\" and python_version < \"3.11\"",
     "ipython>=7.31.1; python_version >= \"3.11\"",
+    "pathlib; python_version == \"2.7\"",
+    "toml>=0.10.2; python_version == \"2.7\"",
+    "toml>=0.10.2; python_version == \"3.4\"",
+    "toml>=0.10.2; python_version == \"3.5\"",
+    "tomli; python_version == \"3.6\"",
+    "tomli; python_version > \"3.6\" and python_version < \"3.11\"",
 ]
 files = [
     {file = "ipdb-0.13.13-py3-none-any.whl", hash = "sha256:45529994741c4ab6d2388bfa5d7b725c2cf7fe9deffabdb8a6113aa5ed449ed4"},
@@ -258,6 +370,7 @@ groups = ["debug"]
 dependencies = [
     "colorama; sys_platform == \"win32\"",
     "decorator",
+    "exceptiongroup; python_version < \"3.11\"",
     "jedi>=0.16",
     "matplotlib-inline",
     "pexpect>4.3; sys_platform != \"win32\" and sys_platform != \"emscripten\"",
@@ -265,6 +378,7 @@ dependencies = [
     "pygments>=2.4.0",
     "stack-data",
     "traitlets>=5.13.0",
+    "typing-extensions>=4.6; python_version < \"3.12\"",
 ]
 files = [
     {file = "ipython-8.26.0-py3-none-any.whl", hash = "sha256:e6b347c27bdf9c32ee9d31ae85defc525755a1869f14057e900675b9e8d6e6ff"},
@@ -333,6 +447,7 @@ summary = "Optional static typing for Python"
 groups = ["lint"]
 dependencies = [
     "mypy-extensions>=1.0.0",
+    "tomli>=1.1.0; python_version < \"3.11\"",
     "typing-extensions>=4.1.0",
 ]
 files = [
@@ -354,6 +469,21 @@ groups = ["lint"]
 files = [
     {file = "mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d"},
     {file = "mypy_extensions-1.0.0.tar.gz", hash = "sha256:75dbf8955dc00442a438fc4d0666508a9a97b6bd41aa2f0ffe9d2f2725af0782"},
+]
+
+[[package]]
+name = "mypy-protobuf"
+version = "3.6.0"
+requires_python = ">=3.8"
+summary = "Generate mypy stub files from protobuf specs"
+groups = ["default"]
+dependencies = [
+    "protobuf>=4.25.3",
+    "types-protobuf>=4.24",
+]
+files = [
+    {file = "mypy-protobuf-3.6.0.tar.gz", hash = "sha256:02f242eb3409f66889f2b1a3aa58356ec4d909cdd0f93115622e9e70366eca3c"},
+    {file = "mypy_protobuf-3.6.0-py3-none-any.whl", hash = "sha256:56176e4d569070e7350ea620262478b49b7efceba4103d468448f1d21492fd6c"},
 ]
 
 [[package]]
@@ -429,6 +559,38 @@ files = [
 ]
 
 [[package]]
+name = "protobuf"
+version = "5.27.3"
+requires_python = ">=3.8"
+summary = ""
+groups = ["default"]
+files = [
+    {file = "protobuf-5.27.3-cp310-abi3-win32.whl", hash = "sha256:dcb307cd4ef8fec0cf52cb9105a03d06fbb5275ce6d84a6ae33bc6cf84e0a07b"},
+    {file = "protobuf-5.27.3-cp310-abi3-win_amd64.whl", hash = "sha256:16ddf3f8c6c41e1e803da7abea17b1793a97ef079a912e42351eabb19b2cffe7"},
+    {file = "protobuf-5.27.3-cp38-abi3-macosx_10_9_universal2.whl", hash = "sha256:68248c60d53f6168f565a8c76dc58ba4fa2ade31c2d1ebdae6d80f969cdc2d4f"},
+    {file = "protobuf-5.27.3-cp38-abi3-manylinux2014_aarch64.whl", hash = "sha256:b8a994fb3d1c11156e7d1e427186662b64694a62b55936b2b9348f0a7c6625ce"},
+    {file = "protobuf-5.27.3-cp38-abi3-manylinux2014_x86_64.whl", hash = "sha256:a55c48f2a2092d8e213bd143474df33a6ae751b781dd1d1f4d953c128a415b25"},
+    {file = "protobuf-5.27.3-py3-none-any.whl", hash = "sha256:8572c6533e544ebf6899c360e91d6bcbbee2549251643d32c52cf8a5de295ba5"},
+    {file = "protobuf-5.27.3.tar.gz", hash = "sha256:82460903e640f2b7e34ee81a947fdaad89de796d324bcbc38ff5430bcdead82c"},
+]
+
+[[package]]
+name = "protos"
+version = "0.1.0"
+requires_python = ">=3.11"
+git = "https://github.com/clayman083/protos.git"
+ref = "v0.1.0"
+revision = "ace4d6b6e4246b7a362cd172023fb65e7813e148"
+summary = "Protocols for services"
+groups = ["default"]
+dependencies = [
+    "grpcio-tools>=1.64.0",
+    "grpcio>=1.64.0",
+    "mypy-protobuf>=3.6.0",
+    "protobuf>=5.27.0",
+]
+
+[[package]]
 name = "ptyprocess"
 version = "0.7.0"
 summary = "Run a subprocess in a pseudo terminal"
@@ -468,9 +630,11 @@ summary = "pytest: simple powerful testing with Python"
 groups = ["test"]
 dependencies = [
     "colorama; sys_platform == \"win32\"",
+    "exceptiongroup>=1.0.0rc8; python_version < \"3.11\"",
     "iniconfig",
     "packaging",
     "pluggy<2.0,>=1.5",
+    "tomli>=1; python_version < \"3.11\"",
 ]
 files = [
     {file = "pytest-8.2.2-py3-none-any.whl", hash = "sha256:c434598117762e2bd304e526244f67bf66bbd7b5d6cf22138be51ff661980343"},
@@ -523,17 +687,60 @@ files = [
 ]
 
 [[package]]
+name = "pytest-freezer"
+version = "0.4.8"
+requires_python = ">= 3.6"
+summary = "Pytest plugin providing a fixture interface for spulec/freezegun"
+groups = ["test"]
+dependencies = [
+    "freezegun>=1.0",
+    "pytest>=3.6",
+]
+files = [
+    {file = "pytest_freezer-0.4.8-py3-none-any.whl", hash = "sha256:644ce7ddb8ba52b92a1df0a80a699bad2b93514c55cf92e9f2517b68ebe74814"},
+    {file = "pytest_freezer-0.4.8.tar.gz", hash = "sha256:8ee2f724b3ff3540523fa355958a22e6f4c1c819928b78a7a183ae4248ce6ee6"},
+]
+
+[[package]]
+name = "pytest-grpc"
+version = "0.8.0"
+summary = "pytest plugin for grpc"
+groups = ["test"]
+dependencies = [
+    "pytest>=3.6.0",
+]
+files = [
+    {file = "pytest-grpc-0.8.0.tar.gz", hash = "sha256:0bd2683ffd34199444d707c0ab01970b22e0afbba6cb1ddb6d578c85ebfe09bd"},
+    {file = "pytest_grpc-0.8.0-py3-none-any.whl", hash = "sha256:5b062cf498e59995e84b3051da76f7bcff8cfe307927869f7bdc27ab967eee35"},
+]
+
+[[package]]
 name = "pytest-randomly"
 version = "3.15.0"
 requires_python = ">=3.8"
 summary = "Pytest plugin to randomly order tests and control random.seed."
 groups = ["test"]
 dependencies = [
+    "importlib-metadata>=3.6.0; python_version < \"3.10\"",
     "pytest",
 ]
 files = [
     {file = "pytest_randomly-3.15.0-py3-none-any.whl", hash = "sha256:0516f4344b29f4e9cdae8bce31c4aeebf59d0b9ef05927c33354ff3859eeeca6"},
     {file = "pytest_randomly-3.15.0.tar.gz", hash = "sha256:b908529648667ba5e54723088edd6f82252f540cc340d748d1fa985539687047"},
+]
+
+[[package]]
+name = "python-dateutil"
+version = "2.9.0.post0"
+requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+summary = "Extensions to the standard Python datetime module"
+groups = ["test"]
+dependencies = [
+    "six>=1.5",
+]
+files = [
+    {file = "python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"},
+    {file = "python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"},
 ]
 
 [[package]]
@@ -564,11 +771,22 @@ files = [
 ]
 
 [[package]]
+name = "setuptools"
+version = "72.1.0"
+requires_python = ">=3.8"
+summary = "Easily download, build, install, upgrade, and uninstall Python packages"
+groups = ["default"]
+files = [
+    {file = "setuptools-72.1.0-py3-none-any.whl", hash = "sha256:5a03e1860cf56bb6ef48ce186b0e557fdba433237481a9a625176c2831be15d1"},
+    {file = "setuptools-72.1.0.tar.gz", hash = "sha256:8d243eff56d095e5817f796ede6ae32941278f542e0f941867cc05ae52b162ec"},
+]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 summary = "Python 2 and 3 compatibility utilities"
-groups = ["debug"]
+groups = ["debug", "test"]
 files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
@@ -609,6 +827,17 @@ groups = ["debug"]
 files = [
     {file = "traitlets-5.14.3-py3-none-any.whl", hash = "sha256:b74e89e397b1ed28cc831db7aea759ba6640cb3de13090ca145426688ff1ac4f"},
     {file = "traitlets-5.14.3.tar.gz", hash = "sha256:9ed0579d3502c94b4b3732ac120375cda96f923114522847de4b3bb98b96b6b7"},
+]
+
+[[package]]
+name = "types-protobuf"
+version = "5.27.0.20240626"
+requires_python = ">=3.8"
+summary = "Typing stubs for protobuf"
+groups = ["default"]
+files = [
+    {file = "types-protobuf-5.27.0.20240626.tar.gz", hash = "sha256:683ba14043bade6785e3f937a7498f243b37881a91ac8d81b9202ecf8b191e9c"},
+    {file = "types_protobuf-5.27.0.20240626-py3-none-any.whl", hash = "sha256:688e8f7e8d9295db26bc560df01fb731b27a25b77cbe4c1ce945647f7024f5c1"},
 ]
 
 [[package]]
@@ -701,6 +930,9 @@ name = "wcwidth"
 version = "0.2.13"
 summary = "Measures the displayed width of unicode strings in a terminal"
 groups = ["debug"]
+dependencies = [
+    "backports-functools-lru-cache>=1.2.1; python_version < \"3.2\"",
+]
 files = [
     {file = "wcwidth-0.2.13-py2.py3-none-any.whl", hash = "sha256:3da69048e4540d84af32131829ff948f1e022c1c6bdb8d6102117aac784f6859"},
     {file = "wcwidth-0.2.13.tar.gz", hash = "sha256:72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"},
@@ -715,6 +947,7 @@ groups = ["default", "test"]
 dependencies = [
     "idna>=2.0",
     "multidict>=4.0",
+    "typing-extensions>=3.7.4; python_version < \"3.8\"",
 ]
 files = [
     {file = "yarl-1.9.4-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:0d2454f0aef65ea81037759be5ca9947539667eecebca092733b2eb43c965a81"},
