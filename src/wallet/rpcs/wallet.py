@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import AsyncGenerator
 from uuid import uuid4
 
 import attrs
@@ -7,7 +8,6 @@ import google.protobuf.timestamp_pb2
 from aiohttp import web
 from grpc.aio import ServicerContext
 from protos.wallet import wallet_pb2, wallet_pb2_grpc
-from typing_extensions import AsyncGenerator
 
 
 @attrs.define(kw_only=True, slots=True)
