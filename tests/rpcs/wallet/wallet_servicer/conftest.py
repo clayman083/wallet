@@ -1,7 +1,8 @@
+from typing import AsyncGenerator
+
 import pytest
 from grpc.aio import insecure_channel
 from protos.wallet import wallet_pb2_grpc
-from typing_extensions import AsyncGenerator
 
 
 @pytest.fixture()
