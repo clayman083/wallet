@@ -8,4 +8,4 @@ from typing_extensions import AsyncGenerator
 async def client() -> AsyncGenerator[wallet_pb2_grpc.WalletServiceStub, None]:
     """RPC service client."""
     async with insecure_channel("127.0.0.1:5005") as channel:
-        yield wallet_pb2_grpc.WalletServiceStub(channel)
+        yield wallet_pb2_grpc.WalletServiceStub(channel)  # type: ignore[no-untyped-call]
