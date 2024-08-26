@@ -1,4 +1,5 @@
 from importlib.metadata import Distribution, distribution
+from typing import cast
 from uuid import UUID, uuid4
 
 import pytest
@@ -7,6 +8,8 @@ from structlog.stdlib import BoundLogger
 
 from wallet.app import init
 from wallet.logging import configure_logging
+
+pytest_plugins = ["session_id"]
 
 
 @pytest.fixture(scope="session")
