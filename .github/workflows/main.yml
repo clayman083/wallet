@@ -4,18 +4,17 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
+      - "master"
     tags:
-      - 'v*'
+      - "v*"
   pull_request:
     branches:
-      - 'master'
+      - "master"
 
 env:
   REGISTRY: ghcr.io
   APP_NAME: wallet
   IMAGE_NAME: ${{ github.repository }}
-
 
 jobs:
   format:
@@ -27,18 +26,18 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-          architecture: 'x64'
+          python-version: "3.12"
+          architecture: "x64"
 
-      - name: Setup PDM
-        uses: pdm-project/setup-pdm@v4
+      - name: Set up uv
+        # Install latest uv version using the installer
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install requirements
-        run: |
-          pdm install --with lint
+        run: make install
 
       - name: Check with Ruff formatter
-        run: pdm run check_format
+        run: make check_format
 
   mypy:
     name: Check with Mypy typechecker
@@ -49,18 +48,18 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-          architecture: 'x64'
+          python-version: "3.12"
+          architecture: "x64"
 
-      - name: Setup PDM
-        uses: pdm-project/setup-pdm@v4
+      - name: Set up uv
+        # Install latest uv version using the installer
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install requirements
-        run: |
-          pdm install --with lint --with test
+        run: make install
 
       - name: Check with Mypy checker
-        run: pdm run check_mypy
+        run: make check_mypy
 
   ruff:
     name: Check with Ruff linter
@@ -71,18 +70,18 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-          architecture: 'x64'
+          python-version: "3.12"
+          architecture: "x64"
 
-      - name: Setup PDM
-        uses: pdm-project/setup-pdm@v4
+      - name: Set up uv
+        # Install latest uv version using the installer
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install requirements
-        run: |
-          pdm install --with lint
+        run: make install
 
       - name: Check with Ruff linter
-        run: pdm run check_ruff
+        run: make check_ruff
 
   pytest:
     name: Run tests
@@ -95,18 +94,18 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-          architecture: 'x64'
+          python-version: "3.12"
+          architecture: "x64"
 
-      - name: Setup PDM
-        uses: pdm-project/setup-pdm@v4
+      - name: Set up uv
+        # Install latest uv version using the installer
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install requirements
-        run: |
-          pdm install --with test
+        run: make install
 
       - name: Run tests
-        run: pdm run test
+        run: make test
 
   build:
     name: Build Docker image

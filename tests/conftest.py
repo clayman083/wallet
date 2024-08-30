@@ -1,5 +1,4 @@
 from importlib.metadata import Distribution, distribution
-from typing import cast
 from uuid import UUID, uuid4
 
 import pytest

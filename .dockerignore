@@ -1,0 +1,12 @@
+.cache
+.eggs
+.idea
+.mypy_cache
+.pytest_cache
+.tox
+.vscode
+.venv
+*.egg-info
+build
+dist
+tests
