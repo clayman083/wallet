@@ -3,8 +3,10 @@ ARG PYTHON_BASE=3.12-slim
 FROM python:$PYTHON_BASE as build
 
 RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update && apt-get install -y -q \
-    build-essential curl python3-setuptools python3.12-dev libffi-dev git
+    apt-get update -qy && apt-get install -qyy \
+    build-essential curl python3-setuptools python3-dev libffi-dev git
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
@@ -40,20 +42,20 @@ RUN set -ex \
 
 STOPSIGNAL SIGINT
 
-RUN set -ex \
-    && apt-get update -qy  \
-    && apt-get install -qyy \
-    -o APT::Install-Recommends=false \
-    -o APT::Install-Suggests=false \
-    python3.12 \
-    libpython3.12 \
-    libpcre3 \
-    libxml2 \
-    && rm -rf /var/lib/apt/lists/*
+# RUN set -ex \
+#     && apt-get update -qy  \
+#     && apt-get install -qyy \
+#     -o APT::Install-Recommends=false \
+#     -o APT::Install-Suggests=false \
+#     python3-dev \
+#     libpython3.12 \
+#     libpcre3 \
+#     libxml2 \
+#     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build --chown=wallet:wallet /app /app
 
-USER app
+USER wallet
 WORKDIR /app
 
 RUN set -ex \
